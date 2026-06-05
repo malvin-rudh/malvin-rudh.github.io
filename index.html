@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malvin Rudh — Quant | HKUST Data Science</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:         #0d1117;
+      --surface:    #161b22;
+      --surface2:   #1c2330;
+      --border:     #30363d;
+      --text:       #e6edf3;
+      --muted:      #8b949e;
+      --accent:     #58a6ff;
+      --green:      #3fb950;
+      --green-dim:  rgba(63,185,80,0.10);
+      --gold:       #d29922;
+      --mono:       'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      --sans:       -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.65; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,17,23,0.88); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 54px;
+    }
+    .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    main { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+    section { padding: 88px 0 16px; }
+    section:first-of-type { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; padding-top: 110px; }
+
+    .sec-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 5px; }
+    h2 { font-size: 21px; font-weight: 600; color: var(--text); margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+    .hero-greeting { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 14px; }
+    .hero-name { font-size: clamp(34px, 6vw, 56px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .hero-title { font-size: clamp(17px, 2.8vw, 24px); color: var(--muted); font-weight: 400; margin-bottom: 20px; }
+    .hero-title span { color: var(--accent); }
+    .hero-bio { color: var(--muted); font-size: 14.5px; line-height: 1.8; margin-bottom: 28px; text-align: justify; }
+
+    .hero-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-family: var(--mono); transition: all 0.2s; cursor: pointer; border: 1px solid transparent; }
+    .btn-primary { background: var(--accent); color: #0d1117; font-weight: 600; border-color: var(--accent); }
+    .btn-primary:hover { background: #79b8ff; text-decoration: none; }
+    .btn-outline { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+.exp-list { display: flex; flex-direction: column; gap: 16px; }
+    .exp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; transition: border-color 0.2s; }
+    .exp-card:hover { border-color: var(--accent); }
+    .exp-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
+    .exp-company { font-size: 14.5px; font-weight: 600; }
+    .exp-date { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--surface2); padding: 2px 8px; border-radius: 4px; }
+    .exp-role { font-size: 12.5px; color: var(--accent); margin-bottom: 10px; }
+    .exp-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .exp-card ul li { font-size: 13px; color: var(--muted); padding-left: 14px; position: relative; line-height: 1.55; }
+    .exp-card ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 9px; top: 4px; }
+
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .proj-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
+    .proj-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .proj-thumb { width: 100%; height: 160px; object-fit: cover; display: block; background: var(--surface2); }
+    .proj-thumb-placeholder { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .proj-body { padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--accent); background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.25); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .proj-date { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .proj-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .proj-desc { font-size: 13px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .proj-link { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 4px; }
+    .proj-link:hover { text-decoration: underline; }
+
+    .two-col-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 32px 0 16px; }
+    .two-col-section .col-head { margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .two-col-section .col-head h2 { font-size: 21px; font-weight: 600; color: var(--text); margin: 0; border: none; padding: 0; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+    .skill-label { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .skill-tag { font-size: 12px; color: var(--text); background: var(--surface2); border: 1px solid var(--border); padding: 3px 9px; border-radius: 4px; }
+    .ach-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ach-badge { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12.5px; }
+    .ach-icon { color: var(--gold); }
+
+    .widget-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+    .widget-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.65; }
+    .widget-desc code { font-family: var(--mono); color: var(--accent); font-size: 12px; background: var(--surface2); padding: 1px 5px; border-radius: 3px; }
+    #gbm-canvas { width: 100%; height: 280px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; display: block; margin-bottom: 20px; }
+    .sliders { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .slider-group { display: flex; flex-direction: column; gap: 5px; }
+    .slider-top { display: flex; justify-content: space-between; align-items: baseline; }
+    .slider-name { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .slider-val { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 600; }
+    input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--border); border-radius: 2px; outline: none; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+    .widget-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .btn-sim { background: var(--accent); color: #0d1117; font-family: var(--mono); font-size: 13px; font-weight: 600; padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+    .btn-sim:hover { background: #79b8ff; }
+    .btn-reset { background: transparent; color: var(--muted); font-family: var(--mono); font-size: 12px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .btn-reset:hover { border-color: var(--muted); color: var(--text); }
+    .widget-note { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+    footer { border-top: 1px solid var(--border); padding: 28px 0; margin-top: 48px; text-align: center; }
+    .footer-inner { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+    .footer-links { display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; }
+    .footer-links a { font-size: 13px; color: var(--muted); }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1.2rem; }
+      .stats-bar { gap: 18px; }
+      .proj-grid, .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Malvin Rudh</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#simulator">Simulator</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <section id="about">
+    <p class="hero-greeting">// hello, world</p>
+    <h1 class="hero-name">Malvin Rudh</h1>
+    <p class="hero-title"><span>Math · Markets · Code</span></p>
+    <p class="hero-bio">Markets have always fascinated me, not just as financial instruments, but as complex adaptive systems where rigorous math meets real noise. I study Data Science at HKUST and have spent the last two years getting hands-on: building statistical arbitrage strategies, developing a Monte Carlo backtester, and competing in IMC Prosperity 4 (18,803+ teams) where I ranked #35 in algorithmic trading in Phase 1, finishing #425 globally and #1 in Indonesia. That drive to compete and build keeps pushing me deeper into the space where mathematics and markets meet.</p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="mailto:malvinrudh@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/></svg>
+        Get in touch
+      </a>
+      <a class="btn btn-outline" href="https://github.com/malvin-rudh" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <a class="btn btn-outline" href="https://www.linkedin.com/in/malvin-rudh-a25b44292" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </section>
+
+  <section id="education">
+    <p class="sec-label">// education</p>
+    <h2>Education</h2>
+    <div class="exp-card">
+      <div class="exp-top">
+        <span class="exp-company">The Hong Kong University of Science &amp; Technology</span>
+        <span class="exp-date">Jun 2023 – Jun 2027 · Hong Kong</span>
+      </div>
+      <div class="exp-role">BSc in Data Science, Extended Major in Artificial Intelligence</div>
+      <ul>
+        <li>CGPA: 3.6 / 4.3</li>
+        <li>Relevant Courses: Data Structures &amp; Algorithms, Statistical Inference, Probability &amp; Statistics, Linear Algebra, Multivariable Calculus, Discrete Mathematics, Data Mining, Database Management Systems, Cloud Computing &amp; Big Data Systems, OOP (Python, C++)</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="two-col-section">
+
+    <!-- LEFT: Experience -->
+    <div id="experience">
+      <div class="col-head">
+        <p class="sec-label">// work</p>
+        <h2>Experience</h2>
+      </div>
+      <div class="exp-list">
+        <div class="exp-card">
+          <div class="exp-top"><span class="exp-company">Oakcean Capital</span><span class="exp-date">Jan – Feb 2026 · London, UK</span></div>
+          <div class="exp-role">Quantitative Researcher Intern</div>
+          <ul>
+            <li>Achieved ~1.0 Sharpe on SSE equities via correlation-based stat-arb, stable across regimes</li>
+            <li>Built a 15+ year OHLCV pipeline for 200+ stocks via MongoDB and REST APIs for factor research</li>
+            <li>Cut intraday query latency 7–30× benchmarking InfluxDB vs MongoDB for time-series workloads</li>
+          </ul>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><span class="exp-company">Rivermap Limited</span><span class="exp-date">Jun – Aug 2025 · Hong Kong</span></div>
+          <div class="exp-role">Research Analyst Intern</div>
+          <ul>
+            <li>Built a sentence-embedding classifier mapping 100,000+ financial concepts to a 1,000-node sector hierarchy at 95% accuracy (0.93 F1)</li>
+            <li>Scraped 200,000+ company sites at 10+ req/sec, cutting manual research time by 70%</li>
+            <li>Deployed a RAG search engine improving retrieval precision from 65% to 90% with sub-10s response time</li>
+          </ul>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><span class="exp-company">01 Tech Limited</span><span class="exp-date">Jun – Aug 2024 · Hong Kong</span></div>
+          <div class="exp-role">Software Engineer Intern</div>
+          <ul>
+            <li>Led a 3-person team to deliver an event management MVP with 8 core modules across desktop and mobile</li>
+            <li>Deployed 2 WordPress e-commerce sites serving 100+ daily visitors and 50+ transactions per month</li>
+            <li>Delivered 30+ React pages for the PolyU Mandarin Exam System, lifting UX satisfaction from 3.9 to 4.5/5</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Skills & Achievements -->
+    <div id="skills">
+      <div class="col-head">
+        <p class="sec-label">// stack</p>
+        <h2>Skills &amp; Achievements</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <div class="skill-label">Programming Languages</div>
+          <div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">C++</span><span class="skill-tag">Java</span><span class="skill-tag">JavaScript</span><span class="skill-tag">R</span></div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-label">Data Analytics</div>
+          <div class="skill-tags"><span class="skill-tag">Pandas</span><span class="skill-tag">NumPy</span><span class="skill-tag">Matplotlib</span><span class="skill-tag">SQL</span><span class="skill-tag">Spark</span><span class="skill-tag">Hadoop</span></div>
+        </div>
+        <div class="skill-group" style="grid-column: 1 / -1;">
+          <div class="skill-label">Technical Areas</div>
+          <div class="skill-tags"><span class="skill-tag">Data Structures &amp; Algorithms</span><span class="skill-tag">Object-Oriented Programming</span><span class="skill-tag">Machine Learning</span><span class="skill-tag">React</span><span class="skill-tag">AWS</span><span class="skill-tag">GitHub</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <section id="projects">
+    <p class="sec-label">// builds</p>
+    <h2>Projects</h2>
+    <div class="proj-grid">
+
+      <div class="proj-card">
+        <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #1a1f2a 0%, #0d1520 100%);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(138,101,255,0.3)" stroke-width="1.2"><path d="M2 20h20M5 20V10l7-7 7 7v10"/><path d="M9 20v-5h6v5"/></svg>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="tag">Python</span><span class="tag">Monte Carlo</span><span class="tag">Bootstrapping</span><span class="tag">pandas</span><span class="tag">yfinance</span></div>
+          <div class="proj-date">May 2026</div>
+          <div class="proj-name">Monte Carlo Backtester</div>
+          <div class="proj-desc">Stress-tests a moving average crossover strategy across 1,000+ bootstrapped price paths to produce a full P&L distribution, not a single backtest number. Fetches real OHLCV data via Yahoo Finance, resamples daily returns with replacement, and reports expected return, volatility, Sharpe ratio, and VaR(95%). Designed to be strategy-agnostic; MA crossover is the first implementation but any strategy can be plugged in via the modular architecture.</div>
+          <a class="proj-link" href="https://github.com/malvin-rudh/monte-carlo-backtester" target="_blank">→ View on GitHub</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #1a2744 0%, #0d1f3c 100%);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(88,166,255,0.3)" stroke-width="1.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">MLP</span><span class="tag">Kubernetes</span><span class="tag">yfinance</span></div>
+          <div class="proj-date">Nov 2025</div>
+          <div class="proj-name">ML for Financial Predictions</div>
+          <div class="proj-desc">MLP regressor predicting next-day normalized S&P 500 values from 60-day price sequences, benchmarked across single-machine and distributed Kubernetes configurations. ETL pipeline fetches and normalizes historical data via yfinance; model achieves R²=0.61 on validation. Primary focus is comparing training throughput across distributed setups using PyTorch DDP.</div>
+          <a class="proj-link" href="https://github.com/malvin-rudh/ml-financial-predictions" target="_blank">→ View on GitHub</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #1f1a2a 0%, #130d1f 100%);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(210,153,34,0.3)" stroke-width="1.2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="tag">C++17</span><span class="tag">AVL BST</span><span class="tag">Hash Table</span><span class="tag">Templates</span><span class="tag">Inheritance</span></div>
+          <div class="proj-date">Apr 2025</div>
+          <div class="proj-name">Efficient Database Simulator</div>
+          <div class="proj-desc">In-memory tabular database engine built from scratch in C++. Rows are stored in a hash table with separate chaining; each column gets an AVL-balanced BST index for O(log N) equality and range queries. Supports multi-typed fields (int, double, string, list) via a templated BaseField hierarchy with no STL maps or sets used.</div>
+          <a class="proj-link" href="https://github.com/malvin-rudh/efficient-database-simulator" target="_blank">→ View on GitHub</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb-placeholder" style="background: linear-gradient(135deg, #1a2a1a 0%, #0d1f0d 100%);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(63,185,80,0.3)" stroke-width="1.2"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="tag">C++17</span><span class="tag">GBM</span><span class="tag">Polymorphism</span><span class="tag">Trading Strategies</span><span class="tag">Makefile</span></div>
+          <div class="proj-date">Jan 2025</div>
+          <div class="proj-name">Trading Bot &amp; Market Simulator</div>
+          <div class="proj-desc">C++ simulator that generates configurable GBM price paths and benchmarks 60+ parameterized trading strategies (mean reversion, trend following, and exponential MA crossover) to find the most profitable. Built on a polymorphic Strategy hierarchy with full manual memory management; no STL containers for core data.</div>
+          <a class="proj-link" href="https://github.com/malvin-rudh/trading-bot-cpp" target="_blank">→ View on GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="simulator">
+    <p class="sec-label">// interactive</p>
+    <h2>GBM Price Path Simulator</h2>
+    <div class="widget-wrap">
+      <p class="widget-desc">
+        A live implementation of <code>Geometric Brownian Motion</code> — the same stochastic process used in my Trading Bot project.
+        Each path follows <code>dS = μS dt + σS dW</code> where dW is a Wiener process, discretised as
+        <code>S(t+dt) = S(t) · exp((μ − σ²/2)dt + σ√dt · Z)</code>, Z ~ N(0,1).
+        The <span style="color:var(--green)">green line</span> is the mean path; the shaded band is the ±1σ envelope.
+      </p>
+      <canvas id="gbm-canvas"></canvas>
+      <div class="sliders">
+        <div class="slider-group">
+          <div class="slider-top"><span class="slider-name">μ — Annual Drift</span><span class="slider-val" id="mu-val">0.08</span></div>
+          <input type="range" id="mu" min="-0.5" max="0.5" step="0.01" value="0.08">
+        </div>
+        <div class="slider-group">
+          <div class="slider-top"><span class="slider-name">σ — Annual Volatility</span><span class="slider-val" id="sigma-val">0.20</span></div>
+          <input type="range" id="sigma" min="0.05" max="1.0" step="0.01" value="0.20">
+        </div>
+        <div class="slider-group">
+          <div class="slider-top"><span class="slider-name">Paths</span><span class="slider-val" id="paths-val">30</span></div>
+          <input type="range" id="paths" min="5" max="80" step="5" value="30">
+        </div>
+        <div class="slider-group">
+          <div class="slider-top"><span class="slider-name">Time Horizon (days)</span><span class="slider-val" id="days-val">252</span></div>
+          <input type="range" id="days" min="30" max="504" step="10" value="252">
+        </div>
+      </div>
+      <div class="widget-actions">
+        <button class="btn-sim" onclick="simulate()">▶ Simulate</button>
+        <button class="btn-reset" onclick="resetDefaults()">Reset</button>
+        <span class="widget-note" id="sim-info"></span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="mailto:malvinrudh@gmail.com">Email</a>
+      <a href="https://github.com/malvin-rudh" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/malvin-rudh-a25b44292" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2026 Malvin Rudh · Hong Kong</p>
+  </div>
+</footer>
+
+<script>
+  // Slider live labels
+  ['mu','sigma','paths','days'].forEach(id => {
+    const el = document.getElementById(id);
+    const lbl = document.getElementById(id + '-val');
+    el.addEventListener('input', () => {
+      lbl.textContent = parseFloat(el.value).toFixed(id === 'paths' || id === 'days' ? 0 : 2);
+    });
+  });
+
+  // Box-Muller normal sample
+  function randn() {
+    let u = 0, v = 0;
+    while (u === 0) u = Math.random();
+    while (v === 0) v = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
+  // GBM simulation
+  function gbmPaths(S0, mu, sigma, T, N) {
+    const dt = T / 252;
+    const paths = [];
+    for (let p = 0; p < N; p++) {
+      const path = [S0];
+      for (let i = 0; i < T; i++) {
+        const prev = path[path.length - 1];
+        path.push(prev * Math.exp((mu - 0.5 * sigma * sigma) * dt + sigma * Math.sqrt(dt) * randn()));
+      }
+      paths.push(path);
+    }
+    return paths;
+  }
+
+  function simulate() {
+    const mu    = parseFloat(document.getElementById('mu').value);
+    const sigma = parseFloat(document.getElementById('sigma').value);
+    const N     = parseInt(document.getElementById('paths').value);
+    const T     = parseInt(document.getElementById('days').value);
+
+    const canvas = document.getElementById('gbm-canvas');
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    const paths = gbmPaths(100, mu, sigma, T, N);
+
+    let minV = Infinity, maxV = -Infinity;
+    paths.forEach(p => p.forEach(v => { if (v < minV) minV = v; if (v > maxV) maxV = v; }));
+    const pad = (maxV - minV) * 0.08;
+    minV -= pad; maxV += pad;
+
+    const xScale = x => (x / T) * (W - 48) + 28;
+    const yScale = v => H - 16 - ((v - minV) / (maxV - minV)) * (H - 32);
+
+    ctx.clearRect(0, 0, W, H);
+
+    // grid
+    ctx.strokeStyle = '#1c2330'; ctx.lineWidth = 1;
+    for (let g = 0; g <= 4; g++) {
+      const y = 16 + (g / 4) * (H - 32);
+      ctx.beginPath(); ctx.moveTo(28, y); ctx.lineTo(W - 10, y); ctx.stroke();
+      const label = (maxV - g * (maxV - minV) / 4).toFixed(1);
+      ctx.fillStyle = '#8b949e'; ctx.font = '10px monospace';
+      ctx.fillText(label, 2, y + 4);
+    }
+
+    // mean & sigma envelope
+    const steps = T + 1;
+    const upper = [], lower = [], mean = [];
+    for (let i = 0; i < steps; i++) {
+      const vals = paths.map(p => p[i]);
+      const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+      const sd = Math.sqrt(vals.map(v => (v - avg) ** 2).reduce((a, b) => a + b, 0) / vals.length);
+      upper.push(avg + sd); lower.push(avg - sd); mean.push(avg);
+    }
+
+    // fill envelope
+    ctx.beginPath();
+    ctx.moveTo(xScale(0), yScale(upper[0]));
+    upper.forEach((v, i) => ctx.lineTo(xScale(i), yScale(v)));
+    for (let i = steps - 1; i >= 0; i--) ctx.lineTo(xScale(i), yScale(lower[i]));
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(63,185,80,0.07)';
+    ctx.fill();
+
+    // individual paths
+    paths.forEach(path => {
+      ctx.beginPath();
+      ctx.moveTo(xScale(0), yScale(path[0]));
+      path.forEach((v, i) => ctx.lineTo(xScale(i), yScale(v)));
+      ctx.strokeStyle = 'rgba(88,166,255,0.20)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // mean path
+    ctx.beginPath();
+    ctx.moveTo(xScale(0), yScale(mean[0]));
+    mean.forEach((v, i) => ctx.lineTo(xScale(i), yScale(v)));
+    ctx.strokeStyle = '#3fb950'; ctx.lineWidth = 2; ctx.stroke();
+
+    // S0 reference
+    ctx.beginPath();
+    ctx.moveTo(xScale(0), yScale(100)); ctx.lineTo(xScale(T), yScale(100));
+    ctx.strokeStyle = 'rgba(210,153,34,0.4)'; ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
+
+    document.getElementById('sim-info').textContent =
+      `S₀=100 · E[Sₜ]=${mean[mean.length-1].toFixed(2)} · ${N} paths · ${T}d`;
+  }
+
+  function resetDefaults() {
+    document.getElementById('mu').value = 0.08;
+    document.getElementById('sigma').value = 0.20;
+    document.getElementById('paths').value = 30;
+    document.getElementById('days').value = 252;
+    ['mu','sigma','paths','days'].forEach(id => {
+      const lbl = document.getElementById(id + '-val');
+      const val = parseFloat(document.getElementById(id).value);
+      lbl.textContent = val.toFixed(id === 'paths' || id === 'days' ? 0 : 2);
+    });
+    simulate();
+  }
+
+  window.addEventListener('load', simulate);
+  window.addEventListener('resize', simulate);
+</script>
+</body>
+</html>
