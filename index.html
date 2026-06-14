@@ -69,6 +69,7 @@
     .exp-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
     .exp-card ul li { font-size: 13px; color: var(--muted); padding-left: 14px; position: relative; line-height: 1.55; }
     .exp-card ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 9px; top: 4px; }
+    .exp-summary { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
     .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
     .proj-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; }
@@ -195,29 +196,22 @@
         <div class="exp-card">
           <div class="exp-top"><span class="exp-company">Oakcean Capital</span><span class="exp-date">Jan – Feb 2026 · London, UK</span></div>
           <div class="exp-role">Quantitative Researcher Intern</div>
-          <ul>
-            <li>Achieved ~1.0 Sharpe on SSE equities via correlation-based stat-arb, stable across regimes</li>
-            <li>Built a 15+ year OHLCV pipeline for 200+ stocks via MongoDB and REST APIs for factor research</li>
-            <li>Cut intraday query latency 7–30× benchmarking InfluxDB vs MongoDB for time-series workloads</li>
-          </ul>
+          <p class="exp-summary">Built a systematic statistical-arbitrage strategy on SSE equities, sourcing mean-reversion trade ideas through correlation clustering and reaching a Sharpe of ~1.0 that stayed stable across market regimes under maximum-drawdown controls. To power the research, I stood up a MongoDB pipeline covering 220+ stocks and 15+ years of daily OHLCV data for multi-factor extraction and backtesting, then benchmarked InfluxDB against MongoDB to cut intraday time-series query latency by 7–30×.</p>
         </div>
         <div class="exp-card">
           <div class="exp-top"><span class="exp-company">Rivermap Limited</span><span class="exp-date">Jun – Aug 2025 · Hong Kong</span></div>
           <div class="exp-role">Research Analyst Intern</div>
-          <ul>
-            <li>Built a sentence-embedding classifier mapping 100,000+ financial concepts to a 1,000-node sector hierarchy at 95% accuracy (0.93 F1)</li>
-            <li>Scraped 200,000+ company sites at 10+ req/sec, cutting manual research time by 70%</li>
-            <li>Deployed a RAG search engine improving retrieval precision from 65% to 90% with sub-10s response time</li>
-          </ul>
+          <p class="exp-summary">Engineered a sentence-embedding classifier that mapped 100,000+ financial concepts onto a 1,000-node sector hierarchy at 95% accuracy (0.93 F1), and architected a web-scraping pipeline crawling 200,000+ company sites at 10+ requests/sec to cut manual research time by ~70%. I also shipped a CLI-driven RAG search engine that lifted retrieval precision from 65% to 90% while keeping average response under 10 seconds.</p>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><span class="exp-company">Alpha Capital Group</span><span class="exp-date">Aug 2024 · Hong Kong</span></div>
+          <div class="exp-role">Certified Funded Trader</div>
+          <p class="exp-summary">Passed a two-phase evaluation, hitting 5% and 8% profit targets under strict risk rules to secure a $100,000 funded account trading XAU/USD and GBP/USD across commodity and FX via MetaTrader 5. Ran disciplined, discretionary trades off macroeconomic data, market trends and key technical levels while keeping risk inside a 2% maximum daily and 10% maximum portfolio drawdown.</p>
         </div>
         <div class="exp-card">
           <div class="exp-top"><span class="exp-company">01 Tech Limited</span><span class="exp-date">Jun – Aug 2024 · Hong Kong</span></div>
           <div class="exp-role">Software Engineer Intern</div>
-          <ul>
-            <li>Led a 3-person team to deliver an event management MVP with 8 core modules across desktop and mobile</li>
-            <li>Deployed 2 WordPress e-commerce sites serving 100+ daily visitors and 50+ transactions per month</li>
-            <li>Delivered 30+ React pages for the PolyU Mandarin Exam System, lifting UX satisfaction from 3.9 to 4.5/5</li>
-          </ul>
+          <p class="exp-summary">Led a 3-person team to deliver an event-management MVP with 8 core modules across desktop and mobile, deployed two WordPress e-commerce sites serving 100+ daily visitors and 50+ transactions a month, and built 30+ React pages for the PolyU Mandarin Exam System that lifted UX satisfaction from 3.9 to 4.5/5.</p>
         </div>
       </div>
     </div>
@@ -240,6 +234,12 @@
         <div class="skill-group" style="grid-column: 1 / -1;">
           <div class="skill-label">Technical Areas</div>
           <div class="skill-tags"><span class="skill-tag">Data Structures &amp; Algorithms</span><span class="skill-tag">Object-Oriented Programming</span><span class="skill-tag">Machine Learning</span><span class="skill-tag">React</span><span class="skill-tag">AWS</span><span class="skill-tag">GitHub</span></div>
+        </div>
+      </div>
+      <div class="ach-list">
+        <div class="ach-badge">
+          <span class="ach-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+          IMC Prosperity 4 — #425 Global · #1 Indonesia · #35 Algo (Phase 1) · 18,803+ teams
         </div>
       </div>
     </div>
